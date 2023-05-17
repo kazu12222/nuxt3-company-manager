@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Trello風アプリ</h1>
+    <AddCard />
     <div class="flex">
       <div class="flex-auto"></div>
       <List :list="list1" class="flex-auto" />
