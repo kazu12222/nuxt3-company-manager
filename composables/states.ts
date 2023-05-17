@@ -1,8 +1,10 @@
+import { computed } from 'vue';
 import { Company } from '~/types/types';
 import type { Ref } from 'vue';
 export const addCompany = (company: Ref<Company>) => {
   const { companies } = companyCard();
   companies.value.push(company.value);
+  console.log(companies.value);
 };
 export const companyCard = () => {
   const companies = useState<Company[]>('company-card', () => [
@@ -34,5 +36,21 @@ export const companyCard = () => {
       state: 'candidate',
     },
   ]);
-  return { companies };
+
+  const client = computed(() =>
+    companies.value.filter((company) => company.state === 'client')
+  );
+  const approach = computed(() =>
+    companies.value.filter((company) => company.state === 'approach')
+  );
+  const candidate = computed(() =>
+    companies.value.filter((company) => company.state === 'candidate')
+  );
+
+  return {
+    companies,
+    client,
+    approach,
+    candidate,
+  };
 };

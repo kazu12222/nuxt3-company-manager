@@ -17,7 +17,7 @@ const addEmptyCard = () => {
       feature: 'A',
       president: '山田太郎',
       memo: '',
-      state: 'client',
+      state: 'candidate',
     })
   );
 };

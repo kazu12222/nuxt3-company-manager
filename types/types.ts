@@ -33,6 +33,6 @@ export interface ClientFinancial {
 }
 export interface ListType {
   name: string;
-  cards: Company[];
+  cards: ComputedRef<Company[]>;
   status: 'client' | 'approach' | 'candidate';
 }

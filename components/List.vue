@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>{{ list.name }}</h2>
-    <draggable v-model="list.cards" group="cards">
+    <draggable v-model="list.cards" group="cards" @end="onEnd">
       <template #item="{ element }">
         <div @click="showDetailsModal(element)">
           <Card :card="element" />
@@ -55,13 +55,27 @@ const props = withDefaults(defineProps<{ list: ListType }>(), {
   list: () => ({} as ListType),
 });
 const list = ref<ListType>(props.list);
+console.log(typeof list);
 const selectedCard = ref<Company>({} as Company);
 const showModal = ref<boolean>(false);
-const tmp = ref<'client' | 'approach' | 'candidate'>('client');
 
 const showDetailsModal = (card: Company) => {
   console.log(card);
   selectedCard.value = card;
   showModal.value = true;
+};
+const onEnd = (event: any) => {
+  // `event`オブジェクトから移動したカードの情報を取得
+  const movedCard = event.item;
+
+  // `movedCard`の状態を新しいリストの状態に更新
+  movedCard.state = list.value.status;
+  console.log(movedCard);
+  // `companies`のデータを更新
+  const { companies } = companyCard();
+  const index = companies.value.findIndex(
+    (company) => company.companyId === movedCard.companyId
+  );
+  companies.value[index] = movedCard;
 };
 </script>
