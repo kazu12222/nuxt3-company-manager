@@ -31,7 +31,7 @@ export interface ClientFinancial {
   earn: number;
   cost: number;
 }
-export interface List {
+export interface ListType {
   name: string;
   cards: Company[];
   status: 'client' | 'approach' | 'candidate';
