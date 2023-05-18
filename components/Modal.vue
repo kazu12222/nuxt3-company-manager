@@ -61,12 +61,15 @@ const props = withDefaults(
       },
       tasks: [
         {
+          companyId: 0,
+          taskId: 0,
           deadline: new Date(),
           content: 'aaa',
           state: 'todo',
         },
       ],
       client: {
+        companyId: 0,
         githubLink: '',
         earn: 0,
         cost: 0,
