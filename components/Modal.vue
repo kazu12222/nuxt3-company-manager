@@ -17,14 +17,14 @@
         >
           {{ localCard.company.name }}
         </h3>
-        <div class="mt-2">
-          <ModalCompany
-            :company="localCard.company"
-            @update:company="updateCard"
-          />
-          <ModalTasks :tasks="localCard.tasks" @update:tasks="updateCard" />
-          <ModalClient :client="localCard.client" @update:client="updateCard" />
-        </div>
+      </div>
+      <div class="mt-2 max-h-[400px] overflow-auto px-4 pb-4 sm:p-6 sm:pb-4">
+        <ModalCompany
+          :company="localCard.company"
+          @update:company="updateCard"
+        />
+        <ModalTasks :tasks="localCard.tasks" @update:tasks="updateCard" />
+        <ModalClient :client="localCard.client" @update:client="updateCard" />
       </div>
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <button
@@ -38,6 +38,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref, withDefaults, defineProps, defineEmits } from 'vue';
 import { CompanyInfo } from '~/types/types';
