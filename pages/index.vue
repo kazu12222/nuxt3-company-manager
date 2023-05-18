@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { ListType } from '~/types/types';
 const { client, approach, candidate } = companyCard();
 const list1 = <ListType>{
