@@ -59,29 +59,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, withDefaults, defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits } from 'vue';
 import { Company } from '~/types/types';
 
-const props = withDefaults(
-  defineProps<{
-    card: Company;
-  }>(),
-  {
-    card: () => ({
-      companyId: 0,
-      name: '',
-      industry: '',
-      feature: '',
-      president: '',
-      memo: '',
-      state: 'candidate',
-    }),
-  }
-);
+const props = defineProps({
+  company: {
+    type: Object as () => Company,
+    required: true,
+  },
+});
 
 const emit = defineEmits(['update:company']);
-
-const company = ref<Company>({ ...props.card });
+const company = ref<Company>({ ...props.company });
 
 const updateCard = () => {
   emit('update:company', company.value);

@@ -38,26 +38,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, withDefaults, defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits } from 'vue';
 import { Client } from '~/types/types';
 
-const props = withDefaults(
-  defineProps<{
-    card: Client;
-  }>(),
-  {
-    card: () => ({
-      companyId: 0,
-      githubLink: '',
-      earn: 0,
-      cost: 0,
-    }),
-  }
-);
+const props = defineProps({
+  client: {
+    type: Object as () => Client,
+    required: true,
+  },
+});
 
 const emit = defineEmits(['update:client']);
-
-const client = ref<Client>({ ...props.card });
+const client = ref<Client>({ ...props.client });
 
 const updateCard = () => {
   emit('update:client', client.value);

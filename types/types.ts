@@ -18,9 +18,9 @@ export interface Task {
 
 export interface Client {
   companyId: number; // Foreign Key linked to Company
-  githubLink: string;
-  earn: number;
-  cost: number;
+  githubLink: string | '';
+  earn: number | '';
+  cost: number | '';
 }
 
 export interface ListType {

@@ -40,48 +40,45 @@
 </template>
 
 <script setup lang="ts">
-import { ref, withDefaults, defineProps, defineEmits } from 'vue';
-import { CompanyInfo } from '~/types/types';
+import { computed, defineProps, defineEmits } from 'vue';
+import { CompanyInfo, Company, Task, Client } from '~/types/types';
 
-const props = withDefaults(
-  defineProps<{
-    card: CompanyInfo;
-    showModal: boolean;
-  }>(),
-  {
-    card: () => ({
-      company: {
-        companyId: 0,
-        name: '',
-        industry: '',
-        feature: '',
-        president: '',
-        memo: '',
-        state: 'candidate',
-      },
-      tasks: [
-        {
-          companyId: 0,
-          taskId: 0,
-          deadline: new Date(),
-          content: 'aaa',
-          state: 'todo',
-        },
-      ],
-      client: {
-        companyId: 0,
-        githubLink: '',
-        earn: 0,
-        cost: 0,
-      },
-    }),
-    showModal: true,
-  }
-);
+const props = defineProps({
+  card: {
+    type: Object as () => {
+      company: Company;
+      tasks?: Task[];
+      client?: Client;
+    },
+    required: true,
+  },
+  showModal: {
+    type: Boolean,
+    default: true,
+  },
+});
 
 const emit = defineEmits(['update:card']);
 
-const localCard = ref<CompanyInfo>({ ...props.card });
+const localCard = computed<CompanyInfo>(() => {
+  const card: CompanyInfo = {
+    company: props.card.company,
+    tasks:
+      props.card.tasks?.map((task) => ({
+        ...task,
+        companyId: props.card.company.companyId,
+      })) ?? [],
+    client: props.card.client
+      ? { ...props.card.client, companyId: props.card.company.companyId }
+      : {
+          companyId: props.card.company.companyId,
+          githubLink: '',
+          earn: 0,
+          cost: 0,
+        },
+  };
+  return card;
+});
 
 const updateCard = () => {
   emit('update:card', localCard.value);

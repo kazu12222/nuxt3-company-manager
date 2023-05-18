@@ -8,14 +8,16 @@
 </template>
 
 <script setup lang="ts">
+const cnt = ref(3);
 const addEmptyCard = () => {
+  cnt.value++;
   addCompany(
     ref({
-      companyId: 4,
-      name: '会社4',
-      industry: 'IT',
-      feature: 'A',
-      president: '山田太郎',
+      companyId: cnt.value,
+      name: `会社${cnt.value}`,
+      industry: '',
+      feature: '',
+      president: '',
       memo: '',
       state: 'candidate',
     })
