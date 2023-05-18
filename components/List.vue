@@ -22,6 +22,7 @@
 import { ref } from 'vue';
 import draggable from 'vuedraggable';
 import { Company, ListType, CompanyInfo } from '~/types/types';
+import { companyCard } from '~/composables/company';
 
 const props = withDefaults(defineProps<{ list: ListType }>(), {
   list: () => ({} as ListType),
@@ -41,13 +42,15 @@ const onEnd = (event: any) => {
 
   // `movedCard`の状態を新しいリストの状態に更新
   movedCard.state = list.value.status;
-  console.log(movedCard);
+
   // `companies`のデータを更新
   const { companies } = companyCard();
   const index = companies.value.findIndex(
     (company) => company.companyId === movedCard.companyId
   );
-  companies.value[index] = movedCard;
+  if (index !== -1) {
+    companies.value[index] = movedCard;
+  }
 };
 // カードの更新処理
 const handleCardUpdate = (updatedCard: CompanyInfo) => {
