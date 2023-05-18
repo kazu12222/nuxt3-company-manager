@@ -13,6 +13,7 @@
       :card="selectedCard"
       :showModal="showModal"
       @close-modal="showModal = false"
+      @update:card="handleCardUpdate"
     />
   </div>
 </template>
@@ -28,6 +29,7 @@ const props = withDefaults(defineProps<{ list: ListType }>(), {
 const list = ref<ListType>(props.list);
 const selectedCard = ref<CompanyInfo>({} as CompanyInfo);
 const showModal = ref<boolean>(false);
+const cardList = ref<CompanyInfo[]>([]);
 
 const showDetailsModal = (card: Company) => {
   selectedCard.value.company = card;
@@ -46,5 +48,17 @@ const onEnd = (event: any) => {
     (company) => company.companyId === movedCard.companyId
   );
   companies.value[index] = movedCard;
+};
+// カードの更新処理
+const handleCardUpdate = (updatedCard: CompanyInfo) => {
+  const index = cardList.value.findIndex(
+    (card) => card.company.companyId === updatedCard.company.companyId
+  );
+  if (index !== -1) {
+    // 更新されたカードでリストを更新
+    cardList.value.splice(index, 1, updatedCard);
+    // 選択されたカードも更新
+    selectedCard.value = updatedCard;
+  }
 };
 </script>

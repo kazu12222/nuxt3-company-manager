@@ -18,95 +18,12 @@
           {{ localCard.company.name }}
         </h3>
         <div class="mt-2">
-          <!-- 会社情報 -->
-          <h4>会社情報</h4>
-          <p>
-            会社名:
-            <input
-              type="text"
-              v-model="localCard.company.name"
-              @input="updateCard"
-            />
-          </p>
-          <p>
-            業種:
-            <input
-              type="text"
-              v-model="localCard.company.industry"
-              @input="updateCard"
-            />
-          </p>
-          <p>
-            特徴:
-            <input
-              type="text"
-              v-model="localCard.company.feature"
-              @input="updateCard"
-            />
-          </p>
-          <p>
-            社長:
-            <input
-              type="text"
-              v-model="localCard.company.president"
-              @input="updateCard"
-            />
-          </p>
-          <p>
-            メモ:
-            <textarea
-              v-model="localCard.company.memo"
-              @input="updateCard"
-            ></textarea>
-          </p>
-
-          <!-- タスク -->
-          <h4>タスク</h4>
-          <div v-for="(task, index) in localCard.tasks" :key="index">
-            <p>
-              締切:
-              <input type="date" v-model="task.deadline" @input="updateCard" />
-            </p>
-            <p>
-              内容:
-              <textarea v-model="task.content" @input="updateCard"></textarea>
-            </p>
-            <p>
-              State:
-              <select v-model="task.state" @change="updateCard">
-                <option value="todo">Todo</option>
-                <option value="doing">Doing</option>
-                <option value="done">Done</option>
-              </select>
-            </p>
-          </div>
-
-          <!-- クライアント情報 -->
-          <h4>クライアント情報</h4>
-          <p>
-            GitHubリンク:
-            <input
-              type="text"
-              v-model="localCard.client.githubLink"
-              @input="updateCard"
-            />
-          </p>
-          <p>
-            売上:
-            <input
-              type="number"
-              v-model="localCard.client.earn"
-              @input="updateCard"
-            />
-          </p>
-          <p>
-            作成費:
-            <input
-              type="number"
-              v-model="localCard.client.cost"
-              @input="updateCard"
-            />
-          </p>
+          <ModalCompany
+            :company="localCard.company"
+            @update:company="updateCard"
+          />
+          <ModalTasks :tasks="localCard.tasks" @update:tasks="updateCard" />
+          <ModalClient :client="localCard.client" @update:client="updateCard" />
         </div>
       </div>
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
