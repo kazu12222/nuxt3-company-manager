@@ -56,6 +56,8 @@ const props = withDefaults(
   {
     card: () => [
       {
+        companyId: 0,
+        taskId: 0,
         deadline: new Date(),
         content: 'aaa',
         state: 'todo',

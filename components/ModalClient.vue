@@ -47,6 +47,7 @@ const props = withDefaults(
   }>(),
   {
     card: () => ({
+      companyId: 0,
       githubLink: '',
       earn: 0,
       cost: 0,
