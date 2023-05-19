@@ -1,15 +1,14 @@
 <template>
-  <div>
-    <h1>Trello風アプリ</h1>
-    <AddCard />
-    <div class="flex">
-      <div class="flex-auto"></div>
-      <List :list="list1" class="flex-auto" />
-      <div class="flex-auto"></div>
-      <List :list="list2" class="flex-auto" />
-      <div class="flex-auto"></div>
-      <List :list="list3" class="flex-auto" />
-      <div class="flex-auto"></div>
+  <div class="flex flex-col min-h-screen mx-4">
+    <h3 class="text-2xl font-bold mb-4 text-center">会社管理</h3>
+    <div class="w-1/4">
+      <AddCard />
+    </div>
+
+    <div class="flex flex-grow">
+      <List :list="list1" class="flex-grow border-r border-gray-300" />
+      <List :list="list2" class="flex-grow border-r border-gray-300" />
+      <List :list="list3" class="flex-grow" />
     </div>
   </div>
 </template>

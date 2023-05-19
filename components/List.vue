@@ -1,9 +1,12 @@
 <template>
-  <div>
-    <h2>{{ list.name }}</h2>
+  <div class="bg-pink-50 rounded-lg p-4">
+    <h2 class="text-xl font-bold mb-4 text-center">{{ list.name }}</h2>
     <draggable v-model="list.cards" group="cards" @start="onStart" @end="onEnd">
       <template #item="{ element }">
-        <div @click="showDetailsModal(element)">
+        <div
+          @click="showDetailsModal(element)"
+          class="cursor-pointer hover:bg-gray-200"
+        >
           <Card :card="element" />
         </div>
       </template>
@@ -16,6 +19,20 @@
     />
   </div>
 </template>
+
+<style scoped>
+.list-container {
+  @apply bg-pink-50 rounded-lg p-4;
+}
+
+.list-title {
+  @apply text-xl font-bold mb-4 text-center;
+}
+
+.card-wrapper {
+  @apply cursor-pointer hover:bg-blue-200;
+}
+</style>
 
 <script setup lang="ts">
 import { ref } from 'vue';
