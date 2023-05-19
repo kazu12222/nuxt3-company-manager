@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>{{ list.name }}</h2>
-    <draggable v-model="list.cards" group="cards" @end="onEnd">
+    <draggable v-model="list.cards" group="cards" @start="onStart" @end="onEnd">
       <template #item="{ element }">
         <div @click="showDetailsModal(element)">
           <Card :card="element" />
@@ -31,26 +31,43 @@ const list = ref<ListType>(props.list);
 const selectedCard = ref<CompanyInfo>({} as CompanyInfo);
 const showModal = ref<boolean>(false);
 const cardList = ref<CompanyInfo[]>([]);
+let tmp = reactive<Company>({} as Company);
 
 const showDetailsModal = (card: Company) => {
   selectedCard.value.company = card;
   showModal.value = true;
 };
-const onEnd = (event: any) => {
-  // `event`オブジェクトから移動したカードの情報を取得
-  const movedCard = event.item;
+const onStart = (event: any) => {
+  const draggedCardIndex = event.oldIndex;
 
-  // `movedCard`の状態を新しいリストの状態に更新
-  movedCard.state = list.value.status;
+  // `draggedCardIndex`からドラッグされたカードを取得
+  const draggedCard: Company = list.value.cards[draggedCardIndex];
 
-  // `companies`のデータを更新
+  // `draggedCard`からcompanyIdを取得
+  // `companies`のデータを更新しカードを移動元リストから削除
   const { companies } = companyCard();
   const index = companies.value.findIndex(
-    (company) => company.companyId === movedCard.companyId
+    (company) => company.companyId === draggedCard.companyId
   );
+  console.log(index);
   if (index !== -1) {
-    companies.value[index] = movedCard;
+    tmp = companies.value[index];
+    companies.value = companies.value.filter(
+      (company) => company.companyId !== draggedCard.companyId
+    );
   }
+};
+
+const onEnd = (event: any) => {
+  const movedCard = event.item;
+
+  // `movedCard`の状態をリストの状態に更新
+  movedCard.state = list.value.status;
+  console.log(movedCard.state);
+
+  // `companies`のデータを更新しカードを移動先リストに追加
+  const { companies } = companyCard();
+  companies.value.push(tmp);
 };
 // カードの更新処理
 const handleCardUpdate = (updatedCard: CompanyInfo) => {
