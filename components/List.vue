@@ -42,9 +42,6 @@ const onStart = (event: any) => {
 
   // `draggedCardIndex`からドラッグされたカードを取得
   const draggedCard: Company = list.value.cards[draggedCardIndex];
-
-  // `draggedCard`からcompanyIdを取得
-  // `companies`のデータを更新しカードを移動元リストから削除
   const { companies } = companyCard();
   const index = companies.value.findIndex(
     (company) => company.companyId === draggedCard.companyId
@@ -71,6 +68,7 @@ const onEnd = (event: any) => {
 };
 // カードの更新処理
 const handleCardUpdate = (updatedCard: CompanyInfo) => {
+  //usestateでデータとってきてcompanyIdで検索して更新
   const index = cardList.value.findIndex(
     (card) => card.company.companyId === updatedCard.company.companyId
   );

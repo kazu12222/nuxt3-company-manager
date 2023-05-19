@@ -15,7 +15,6 @@ export interface Task {
   content: string;
   state: 'todo' | 'doing' | 'done';
 }
-
 export interface Client {
   companyId: number; // Foreign Key linked to Company
   githubLink: string | '';

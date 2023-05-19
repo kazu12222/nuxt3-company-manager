@@ -21,10 +21,16 @@
       <div class="mt-2 max-h-[400px] overflow-auto px-4 pb-4 sm:p-6 sm:pb-4">
         <ModalCompany
           :company="localCard.company"
-          @update:company="updateCard"
+          @update:company="updateCard('company', $event)"
         />
-        <ModalTasks :tasks="localCard.tasks" @update:tasks="updateCard" />
-        <ModalClient :client="localCard.client" @update:client="updateCard" />
+        <ModalTasks
+          :tasks="localCard.tasks"
+          @update:tasks="updateCard('tasks', $event)"
+        />
+        <ModalClient
+          :client="localCard.client"
+          @update:client="updateCard('client', $event)"
+        />
       </div>
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <button
@@ -57,8 +63,7 @@ const props = defineProps({
     default: true,
   },
 });
-
-const emit = defineEmits(['update:card']);
+let updatedData = { company: {}, tasks: [], client: {} };
 
 const localCard = computed<CompanyInfo>(() => {
   const card: CompanyInfo = {
@@ -80,7 +85,8 @@ const localCard = computed<CompanyInfo>(() => {
   return card;
 });
 
-const updateCard = () => {
-  emit('update:card', localCard.value);
+const updateCard = (type: 'company' | 'tasks' | 'client', value: any) => {
+  updatedData[type] = value;
+  console.log(updatedData);
 };
 </script>

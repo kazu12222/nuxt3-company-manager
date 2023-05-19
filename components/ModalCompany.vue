@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps } from 'vue';
 import { Company } from '~/types/types';
 
 const props = defineProps({
@@ -68,11 +68,9 @@ const props = defineProps({
     required: true,
   },
 });
-
-const emit = defineEmits(['update:company']);
 const company = ref<Company>({ ...props.company });
 
 const updateCard = () => {
-  emit('update:company', company.value);
+  updateCompany(company);
 };
 </script>
