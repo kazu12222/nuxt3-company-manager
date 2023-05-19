@@ -19,18 +19,9 @@
         </h3>
       </div>
       <div class="mt-2 max-h-[400px] overflow-auto px-4 pb-4 sm:p-6 sm:pb-4">
-        <ModalCompany
-          :company="localCard.company"
-          @update:company="updateCard('company', $event)"
-        />
-        <ModalTasks
-          :tasks="localCard.tasks"
-          @update:tasks="updateCard('tasks', $event)"
-        />
-        <ModalClient
-          :client="localCard.client"
-          @update:client="updateCard('client', $event)"
-        />
+        <ModalCompany :company="localCard.company" />
+        <ModalTasks :tasks="localCard.tasks" />
+        <ModalClient :client="localCard.client" />
       </div>
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <button
@@ -53,8 +44,8 @@ const props = defineProps({
   card: {
     type: Object as () => {
       company: Company;
-      tasks?: Task[];
-      client?: Client;
+      tasks?: Task[] | undefined;
+      client?: Client | undefined;
     },
     required: true,
   },
@@ -63,7 +54,6 @@ const props = defineProps({
     default: true,
   },
 });
-let updatedData = { company: {}, tasks: [], client: {} };
 
 const localCard = computed<CompanyInfo>(() => {
   const card: CompanyInfo = {
@@ -84,9 +74,4 @@ const localCard = computed<CompanyInfo>(() => {
   };
   return card;
 });
-
-const updateCard = (type: 'company' | 'tasks' | 'client', value: any) => {
-  updatedData[type] = value;
-  console.log(updatedData);
-};
 </script>

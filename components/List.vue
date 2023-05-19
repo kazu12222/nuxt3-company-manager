@@ -13,7 +13,6 @@
       :card="selectedCard"
       :showModal="showModal"
       @close-modal="showModal = false"
-      @update:card="handleCardUpdate"
     />
   </div>
 </template>
@@ -34,10 +33,11 @@ const props = defineProps({
 const list = ref<ListType>(props.list);
 const selectedCard = ref<CompanyInfo>({} as CompanyInfo);
 const showModal = ref<boolean>(false);
-const cardList = ref<CompanyInfo[]>([]);
 let tmp = reactive<Company>({} as Company);
 const showDetailsModal = (card: Company) => {
   selectedCard.value.company = card;
+  selectedCard.value.tasks = getTaskById(card.companyId);
+  selectedCard.value.client = getClientById(card.companyId);
   showModal.value = true;
 };
 const onStart = (event: any) => {
@@ -63,23 +63,9 @@ const onEnd = (event: any) => {
 
   // `movedCard`の状態をリストの状態に更新
   movedCard.state = list.value.status;
-  console.log(movedCard.state);
 
   // `companies`のデータを更新しカードを移動先リストに追加
   const { companies } = companyCard();
   companies.value.push(tmp);
-};
-// カードの更新処理
-const handleCardUpdate = (updatedCard: CompanyInfo) => {
-  //usestateでデータとってきてcompanyIdで検索して更新
-  const index = cardList.value.findIndex(
-    (card) => card.company.companyId === updatedCard.company.companyId
-  );
-  if (index !== -1) {
-    // 更新されたカードでリストを更新
-    cardList.value.splice(index, 1, updatedCard);
-    // 選択されたカードも更新
-    selectedCard.value = updatedCard;
-  }
 };
 </script>

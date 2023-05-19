@@ -12,5 +12,4 @@ const props = withDefaults(defineProps<{ card: { name: string } }>(), {
 });
 
 const card = ref(props.card);
-console.log(card.value.name);
 </script>
