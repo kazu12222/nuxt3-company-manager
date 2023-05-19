@@ -17,11 +17,42 @@ export const updateTask = (updatedItems: Ref<Task[]>) => {
       console.warn(`Company with id ${updatedItem.companyId} not found.`);
     }
   });
-  console.log(tasks.value);
+};
+
+export const getTaskById = (companyId: number) => {
+  const { tasks } = taskCard();
+  const index = tasks.value.findIndex((task) => task.companyId === companyId);
+  if (index !== -1) {
+    return Array(tasks.value[index]);
+  } else {
+    throw new Error(`Company with id ${companyId} not found.`);
+  }
 };
 
 export const taskCard = () => {
-  const tasks = useState<Task[]>('tasks-card', () => []);
+  const tasks = useState<Task[]>('tasks-card', () => [
+    {
+      companyId: 1,
+      taskId: 1,
+      deadline: new Date().toISOString().split('T')[0],
+      content: 'タスク1',
+      state: 'todo',
+    },
+    {
+      companyId: 2,
+      taskId: 1,
+      deadline: new Date().toISOString().split('T')[0],
+      content: 'タスク1',
+      state: 'todo',
+    },
+    {
+      companyId: 3,
+      taskId: 1,
+      deadline: new Date().toISOString().split('T')[0],
+      content: 'タスク1',
+      state: 'todo',
+    },
+  ]);
   return {
     tasks,
   };

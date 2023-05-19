@@ -51,6 +51,7 @@ const props = defineProps({
 const client = ref<Client>({ ...props.client });
 
 const updateCard = () => {
+  console.log(client.value);
   updateClient(client);
 };
 </script>
