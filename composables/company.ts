@@ -17,7 +17,7 @@ export const updateCompany = (updatedItem: Ref<Company>) => {
   } else {
     console.warn(`Company with id ${updatedItem.value.companyId} not found.`);
   }
-
+  console.log('company.ts');
   console.log(companies.value);
 };
 
@@ -61,7 +61,7 @@ export const companyCard = () => {
   const candidate = computed(() =>
     companies.value.filter((company) => company.state === 'candidate')
   );
-
+  console.log('computed作動');
   return {
     companies,
     client,

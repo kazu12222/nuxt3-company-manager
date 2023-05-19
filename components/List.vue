@@ -24,15 +24,18 @@ import draggable from 'vuedraggable';
 import { Company, ListType, CompanyInfo } from '~/types/types';
 import { companyCard } from '~/composables/company';
 
-const props = withDefaults(defineProps<{ list: ListType }>(), {
-  list: () => ({} as ListType),
+const props = defineProps({
+  list: {
+    type: Object as () => ListType,
+    required: true,
+    default: () => ({} as ListType),
+  },
 });
 const list = ref<ListType>(props.list);
 const selectedCard = ref<CompanyInfo>({} as CompanyInfo);
 const showModal = ref<boolean>(false);
 const cardList = ref<CompanyInfo[]>([]);
 let tmp = reactive<Company>({} as Company);
-
 const showDetailsModal = (card: Company) => {
   selectedCard.value.company = card;
   showModal.value = true;

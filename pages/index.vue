@@ -34,4 +34,5 @@ const list3 = <ListType>{
   cards: candidate,
   status: 'candidate',
 };
+console.log('list1' + list1);
 </script>
