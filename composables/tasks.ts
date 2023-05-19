@@ -12,7 +12,7 @@ export const updateTask = (updatedItems: Ref<Task[]>) => {
       (task) => task.companyId === updatedItem.companyId
     );
     if (index !== -1) {
-      return [tasks.value[index]];
+      tasks.value[index] = updatedItem;
     } else {
       console.warn(`Company with id ${updatedItem.companyId} not found.`);
     }
@@ -34,21 +34,21 @@ export const taskCard = () => {
     {
       companyId: 1,
       taskId: 1,
-      deadline: new Date(),
+      deadline: new Date().toISOString().split('T')[0],
       content: 'タスク1',
       state: 'todo',
     },
     {
       companyId: 2,
       taskId: 1,
-      deadline: new Date(),
+      deadline: new Date().toISOString().split('T')[0],
       content: 'タスク1',
       state: 'todo',
     },
     {
       companyId: 3,
       taskId: 1,
-      deadline: new Date(),
+      deadline: new Date().toISOString().split('T')[0],
       content: 'タスク1',
       state: 'todo',
     },

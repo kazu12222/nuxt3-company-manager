@@ -44,8 +44,8 @@ const props = defineProps({
   card: {
     type: Object as () => {
       company: Company;
-      tasks?: Task[] | undefined;
-      client?: Client | undefined;
+      tasks?: Task[];
+      client?: Client;
     },
     required: true,
   },

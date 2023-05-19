@@ -78,7 +78,7 @@ const addTask = () => {
   tasks.value.push({
     companyId: companyId, // Use the same companyId for all tasks
     taskId: taskId, // Assigning current taskId
-    deadline: new Date(),
+    deadline: new Date().toISOString().split('T')[0],
     content: '',
     state: 'todo',
   });

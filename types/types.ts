@@ -11,7 +11,7 @@ export interface Company {
 export interface Task {
   companyId: number; // Foreign Key linked to Company
   taskId: number; // Primary Key
-  deadline: Date;
+  deadline: string;
   content: string;
   state: 'todo' | 'doing' | 'done';
 }
