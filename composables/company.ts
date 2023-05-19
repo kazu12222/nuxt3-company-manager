@@ -1,13 +1,28 @@
-import { computed } from 'vue';
 import { Company } from '~/types/types';
 import type { Ref } from 'vue';
+
 export const addCompany = (company: Ref<Company>) => {
   const { companies } = companyCard();
   companies.value.push(company.value);
   console.log(companies.value);
 };
+
+export const updateCompany = (updatedItem: Ref<Company>) => {
+  const { companies } = companyCard();
+  const index = companies.value.findIndex(
+    (company) => company.companyId === updatedItem.value.companyId
+  );
+  if (index !== -1) {
+    companies.value[index] = updatedItem.value;
+  } else {
+    console.warn(`Company with id ${updatedItem.value.companyId} not found.`);
+  }
+
+  console.log(companies.value);
+};
+
 export const companyCard = () => {
-  const companies = useState<Company[]>('company-card', () => [
+  const companies = useState<Company[]>('companies-card', () => [
     {
       companyId: 1,
       name: '会社1',

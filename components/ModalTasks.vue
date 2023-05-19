@@ -64,14 +64,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:tasks']);
 const tasks = ref<Task[]>([...props.tasks]);
 
 let taskId = tasks.value.length; // Set taskId to current length of tasks array
 let companyId = tasks.value[0]?.companyId || 0; // Use companyId of first task, or default to 0 if no tasks
 
 const updateCard = () => {
-  emit('update:tasks', tasks.value);
+  console.log(tasks.value);
+  updateTask(tasks);
 };
 
 const addTask = () => {

@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps } from 'vue';
 import { Client } from '~/types/types';
 
 const props = defineProps({
@@ -48,10 +48,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:client']);
 const client = ref<Client>({ ...props.client });
 
 const updateCard = () => {
-  emit('update:client', client.value);
+  updateClient(client);
 };
 </script>
