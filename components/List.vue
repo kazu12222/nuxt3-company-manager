@@ -1,16 +1,22 @@
 <template>
-  <div class="bg-pink-50 rounded-lg p-4">
+  <div
+    class="bg-pink-50 rounded-lg p-4"
+    @drop="dropCard($event, list.status)"
+    @dragover.prevent
+    @dragenter.prevent
+  >
     <h2 class="text-xl font-bold mb-4 text-center">{{ list.name }}</h2>
-    <draggable v-model="list.cards" group="cards" @start="onStart" @end="onEnd">
-      <template #item="{ element }">
-        <div
-          @click="showDetailsModal(element)"
-          class="cursor-pointer hover:bg-gray-200"
-        >
-          <Card :card="element" />
-        </div>
-      </template>
-    </draggable>
+
+    <div
+      class="bg-white m-2 p-2"
+      :key="card.companyId"
+      v-for="card in list.cards"
+      draggable="true"
+      @click="showDetailsModal(card)"
+      @dragstart="dragCard($event, card.companyId)"
+    >
+      <Card :card="card" />
+    </div>
     <Modal
       v-if="showModal"
       :card="selectedCard"
@@ -50,39 +56,31 @@ const props = defineProps({
 const list = ref<ListType>(props.list);
 const selectedCard = ref<CompanyInfo>({} as CompanyInfo);
 const showModal = ref<boolean>(false);
-let tmp = reactive<Company>({} as Company);
 const showDetailsModal = (card: Company) => {
   selectedCard.value.company = card;
   selectedCard.value.tasks = getTaskById(card.companyId);
   selectedCard.value.client = getClientById(card.companyId);
   showModal.value = true;
 };
-const onStart = (event: any) => {
-  const draggedCardIndex = event.oldIndex;
-
-  // `draggedCardIndex`からドラッグされたカードを取得
-  const draggedCard: Company = list.value.cards[draggedCardIndex];
+const dragCard = (event: any, dragCardId: number) => {
+  console.log(event);
+  event.dataTransfer.effectAllowed = 'move';
+  event.dataTransfer.dropEffect = 'move';
+  event.dataTransfer.setData('list-id', dragCardId);
+};
+const dropCard = (event: any, status: 'client' | 'approach' | 'candidate') => {
+  console.log('A');
   const { companies } = companyCard();
+  const dragCardId = event.dataTransfer.getData('list-id');
+  console.log(companies);
+  console.log(dragCardId);
   const index = companies.value.findIndex(
-    (company) => company.companyId === draggedCard.companyId
+    (company) => company.companyId === Number(dragCardId)
   );
   console.log(index);
+  console.log(companies.value[index]);
   if (index !== -1) {
-    tmp = companies.value[index];
-    companies.value = companies.value.filter(
-      (company) => company.companyId !== draggedCard.companyId
-    );
+    companies.value[index].state = status;
   }
-};
-
-const onEnd = (event: any) => {
-  const movedCard = event.item;
-
-  // `movedCard`の状態をリストの状態に更新
-  movedCard.state = list.value.status;
-
-  // `companies`のデータを更新しカードを移動先リストに追加
-  const { companies } = companyCard();
-  companies.value.push(tmp);
 };
 </script>
