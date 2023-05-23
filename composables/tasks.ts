@@ -1,59 +1,74 @@
-import { Task } from '~/types/types';
+import { Task, TaskManager } from '~/types/types';
 import type { Ref } from 'vue';
-export const addTask = (task: Ref<Task>) => {
-  const { tasks } = taskCard();
-  tasks.value.push(task.value);
+export const addTask = (companyId: number, task: Ref<Task>) => {
+  const { taskManager } = taskCard();
+  taskManager.value[companyId].tasks.push(task.value);
 };
 
-export const updateTask = (updatedItems: Ref<Task[]>) => {
-  const { tasks } = taskCard();
-  updatedItems.value.forEach((updatedItem) => {
-    const index = tasks.value.findIndex(
-      (task) => task.companyId === updatedItem.companyId
-    );
-    if (index !== -1) {
-      tasks.value[index] = updatedItem;
-    } else {
-      console.warn(`Company with id ${updatedItem.companyId} not found.`);
-    }
-  });
-};
-
-export const getTaskById = (companyId: number) => {
-  const { tasks } = taskCard();
-  const index = tasks.value.findIndex((task) => task.companyId === companyId);
+export const updateTask = (updatedItems: Ref<TaskManager>) => {
+  const { taskManager } = taskCard();
+  const index = taskManager.value.findIndex(
+    // ここでtaskManagerの選別をしている
+    (task) => task.companyId === updatedItems.value.companyId
+  );
+  console.log(index);
   if (index !== -1) {
-    return Array(tasks.value[index]);
+    taskManager.value[index].tasks = updatedItems.value.tasks;
+  } else {
+    console.warn(`Company with id ${updatedItems.value.companyId} not found.`);
+  }
+};
+
+export const getTaskById = (companyId: number): TaskManager => {
+  // ここでcompanyIdを受け取っている
+  const { taskManager } = taskCard();
+  const index = taskManager.value.findIndex(
+    (task) => task.companyId === companyId
+  );
+  if (index !== -1) {
+    return taskManager.value[index];
   } else {
     throw new Error(`Company with id ${companyId} not found.`);
   }
 };
 
 export const taskCard = () => {
-  const tasks = useState<Task[]>('tasks-card', () => [
+  const taskManager = useState<TaskManager[]>('tasks-card', () => [
     {
       companyId: 1,
-      taskId: 1,
-      deadline: new Date().toISOString().split('T')[0],
-      content: 'タスク1',
-      state: 'todo',
+      tasks: [
+        {
+          taskId: 1,
+          deadline: new Date().toISOString().split('T')[0],
+          content: 'タスク1',
+          state: 'todo',
+        },
+      ],
     },
     {
       companyId: 2,
-      taskId: 1,
-      deadline: new Date().toISOString().split('T')[0],
-      content: 'タスク1',
-      state: 'todo',
+      tasks: [
+        {
+          taskId: 1,
+          deadline: new Date().toISOString().split('T')[0],
+          content: 'タスク2',
+          state: 'todo',
+        },
+      ],
     },
     {
       companyId: 3,
-      taskId: 1,
-      deadline: new Date().toISOString().split('T')[0],
-      content: 'タスク1',
-      state: 'todo',
+      tasks: [
+        {
+          taskId: 1,
+          deadline: new Date().toISOString().split('T')[0],
+          content: 'タスク3',
+          state: 'todo',
+        },
+      ],
     },
   ]);
   return {
-    tasks,
+    taskManager,
   };
 };

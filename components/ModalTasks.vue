@@ -4,13 +4,13 @@
       <h4 class="text-lg font-bold mb-4">タスク</h4>
       <button
         class="ml-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center"
-        @click="addTask"
+        @click="addClickTask"
       >
         +Add
       </button>
     </div>
     <div
-      v-for="(task, index) in tasks"
+      v-for="(task, index) in taskManager.tasks"
       :key="index"
       class="mb-4 bg-white p-4 rounded shadow"
     >
@@ -55,33 +55,33 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue';
-import { Task } from '~/types/types';
+import { Task, TaskManager } from '~/types/types';
 
 const props = defineProps({
-  tasks: {
-    type: Array as () => Task[],
+  taskManager: {
+    type: Object as () => TaskManager,
     required: true,
   },
 });
 
-const tasks = ref<Task[]>([...props.tasks]);
+const taskManager = ref<TaskManager>({ ...props.taskManager });
 
-let taskId = tasks.value.length; // Set taskId to current length of tasks array
-let companyId = tasks.value[0]?.companyId || 0; // Use companyId of first task, or default to 0 if no tasks
+let taskId = ref<number>(taskManager.value.tasks.length); // Set taskId to current length of tasks array
+let companyId = taskManager.value.companyId; // Use companyId of first task, or default to 0 if no tasks
 
 const updateCard = () => {
-  console.log(tasks.value);
-  updateTask(tasks);
+  console.log(taskManager.value);
+  updateTask(taskManager);
 };
 
-const addTask = () => {
-  tasks.value.push({
-    companyId: companyId, // Use the same companyId for all tasks
-    taskId: taskId, // Assigning current taskId
+const addClickTask = () => {
+  const task = ref<Task>({
+    taskId: taskId.value, // Assigning current taskId
     deadline: new Date().toISOString().split('T')[0],
     content: '',
     state: 'todo',
   });
-  taskId++; // Increment taskId for next usage
+  addTask(companyId, task);
+  taskId.value++; // Increment taskId for next usage
 };
 </script>

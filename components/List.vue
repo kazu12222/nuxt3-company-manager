@@ -42,7 +42,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import draggable from 'vuedraggable';
 import { Company, ListType, CompanyInfo } from '~/types/types';
 import { companyCard } from '~/composables/company';
 
@@ -56,29 +55,28 @@ const props = defineProps({
 const list = ref<ListType>(props.list);
 const selectedCard = ref<CompanyInfo>({} as CompanyInfo);
 const showModal = ref<boolean>(false);
+
 const showDetailsModal = (card: Company) => {
+  console.log(card);
   selectedCard.value.company = card;
-  selectedCard.value.tasks = getTaskById(card.companyId);
+  selectedCard.value.taskManager = getTaskById(card.companyId);
   selectedCard.value.client = getClientById(card.companyId);
   showModal.value = true;
 };
+
 const dragCard = (event: any, dragCardId: number) => {
   console.log(event);
   event.dataTransfer.effectAllowed = 'move';
   event.dataTransfer.dropEffect = 'move';
   event.dataTransfer.setData('list-id', dragCardId);
 };
+
 const dropCard = (event: any, status: 'client' | 'approach' | 'candidate') => {
-  console.log('A');
   const { companies } = companyCard();
   const dragCardId = event.dataTransfer.getData('list-id');
-  console.log(companies);
-  console.log(dragCardId);
   const index = companies.value.findIndex(
     (company) => company.companyId === Number(dragCardId)
   );
-  console.log(index);
-  console.log(companies.value[index]);
   if (index !== -1) {
     companies.value[index].state = status;
   }

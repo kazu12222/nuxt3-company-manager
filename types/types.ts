@@ -8,13 +8,17 @@ export interface Company {
   state: 'client' | 'approach' | 'candidate';
 }
 
-export interface Task {
+export interface TaskManager {
   companyId: number; // Foreign Key linked to Company
+  tasks: Task[];
+}
+export interface Task {
   taskId: number; // Primary Key
   deadline: string;
   content: string;
   state: 'todo' | 'doing' | 'done';
 }
+
 export interface Client {
   companyId: number; // Foreign Key linked to Company
   githubLink: string | '';
@@ -29,6 +33,6 @@ export interface ListType {
 }
 export interface CompanyInfo {
   company: Company;
-  tasks: Task[];
+  taskManager: TaskManager;
   client: Client;
 }
