@@ -7,7 +7,15 @@ export const addTaskManager = (addItem: Ref<TaskManager>) => {
 
 export const addTask = (companyId: number, task: Ref<Task>) => {
   const { taskManager } = taskCard();
-  taskManager.value[companyId].tasks.push(task.value);
+  const index = taskManager.value.findIndex(
+    (taskManagerItem) => taskManagerItem.companyId === companyId
+  );
+
+  if (index !== -1) {
+    taskManager.value[index].tasks.push(task.value);
+  } else {
+    console.warn(`Company with id ${companyId} not found.`);
+  }
 };
 
 export const updateTask = (updatedItems: Ref<TaskManager>) => {

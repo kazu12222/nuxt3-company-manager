@@ -84,4 +84,7 @@ const addClickTask = () => {
   addTask(companyId, task);
   taskId.value++; // Increment taskId for next usage
 };
+watchEffect(() => {
+  console.log('TaskManager has changed:', taskManager.value);
+});
 </script>
