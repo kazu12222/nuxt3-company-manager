@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import { addTaskManager } from '~/composables/tasks';
 const cnt = ref(3);
 const addEmptyCard = () => {
   cnt.value++;
@@ -20,6 +21,27 @@ const addEmptyCard = () => {
       president: '',
       memo: '',
       state: 'candidate',
+    })
+  );
+  addTaskManager(
+    ref({
+      companyId: cnt.value,
+      tasks: [
+        {
+          taskId: 1,
+          deadline: '',
+          content: '',
+          state: 'todo',
+        },
+      ],
+    })
+  );
+  addClient(
+    ref({
+      companyId: cnt.value,
+      githubLink: '',
+      earn: 0,
+      cost: 0,
     })
   );
 };

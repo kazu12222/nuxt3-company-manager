@@ -1,5 +1,10 @@
 import { Task, TaskManager } from '~/types/types';
 import type { Ref } from 'vue';
+export const addTaskManager = (addItem: Ref<TaskManager>) => {
+  const { taskManager } = taskCard();
+  taskManager.value.push(addItem.value);
+};
+
 export const addTask = (companyId: number, task: Ref<Task>) => {
   const { taskManager } = taskCard();
   taskManager.value[companyId].tasks.push(task.value);
