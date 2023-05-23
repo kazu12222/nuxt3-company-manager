@@ -20,7 +20,7 @@
       </div>
       <div class="mt-2 max-h-[400px] overflow-auto px-4 pb-4 sm:p-6 sm:pb-4">
         <ModalCompany :company="localCard.company" />
-        <ModalTasks :tasks="localCard.tasks" />
+        <ModalTasks :taskManager="localCard.taskManager" />
         <ModalClient :client="localCard.client" />
       </div>
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -38,14 +38,14 @@
 
 <script setup lang="ts">
 import { computed, defineProps, defineEmits } from 'vue';
-import { CompanyInfo, Company, Task, Client } from '~/types/types';
+import { CompanyInfo, Company, Task, Client, TaskManager } from '~/types/types';
 
 const props = defineProps({
   card: {
     type: Object as () => {
       company: Company;
-      tasks?: Task[];
-      client?: Client;
+      taskManager: TaskManager;
+      client: Client;
     },
     required: true,
   },
@@ -58,19 +58,8 @@ const props = defineProps({
 const localCard = computed<CompanyInfo>(() => {
   const card: CompanyInfo = {
     company: props.card.company,
-    tasks:
-      props.card.tasks?.map((task) => ({
-        ...task,
-        companyId: props.card.company.companyId,
-      })) ?? [],
-    client: props.card.client
-      ? { ...props.card.client, companyId: props.card.company.companyId }
-      : {
-          companyId: props.card.company.companyId,
-          githubLink: '',
-          earn: 0,
-          cost: 0,
-        },
+    taskManager: props.card.taskManager,
+    client: props.card.client,
   };
   return card;
 });
