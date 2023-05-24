@@ -49,7 +49,6 @@ const props = defineProps({
   list: {
     type: Object as () => ListType,
     required: true,
-    default: () => ({} as ListType),
   },
 });
 const list = ref<ListType>(props.list);

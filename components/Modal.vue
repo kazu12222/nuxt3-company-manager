@@ -20,7 +20,9 @@
       </div>
       <div class="mt-2 max-h-[400px] overflow-auto px-4 pb-4 sm:p-6 sm:pb-4">
         <ModalCompany :company="localCard.company" />
-        <ModalTasks :taskManager="localCard.taskManager" />
+        <div v-if="localCard.taskManager.tasks">
+          <ModalTasks :taskManager="localCard.taskManager" />
+        </div>
         <ModalClient :client="localCard.client" />
       </div>
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -37,8 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, defineEmits } from 'vue';
-import { CompanyInfo, Company, Task, Client, TaskManager } from '~/types/types';
+import { computed, defineProps } from 'vue';
+import { CompanyInfo, Company, Client, TaskManager } from '~/types/types';
 
 const props = defineProps({
   card: {
