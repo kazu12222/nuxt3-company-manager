@@ -1,4 +1,4 @@
-import { Task, TaskManager } from '~/types/types';
+import { Task, TaskManager, TaskInfo } from '~/types/types';
 import type { Ref } from 'vue';
 export const addTaskManager = (addItem: Ref<TaskManager>) => {
   const { taskManagers } = taskCard();
@@ -45,6 +45,29 @@ export const getTaskById = (companyId: number): TaskManager => {
   }
 };
 
+export const getTasksByState = (
+  state: 'todo' | 'doing' | 'done'
+): TaskInfo[] => {
+  const { taskManagers } = taskCard();
+  let tasksByState: TaskInfo[] = [];
+
+  taskManagers.value.forEach((taskManager) => {
+    taskManager.tasks.forEach((task) => {
+      if (task.state === state) {
+        tasksByState.push({
+          companyId: taskManager.companyId,
+          taskId: task.taskId,
+          deadline: task.deadline,
+          content: task.content,
+          state: task.state,
+        });
+      }
+    });
+  });
+
+  return tasksByState;
+};
+
 export const taskCard = () => {
   const taskManagers = useState<TaskManager[]>('tasks-card', () => [
     {
@@ -82,54 +105,10 @@ export const taskCard = () => {
     },
   ]);
 
-  const todo = computed(() => {
-    const filteredTasks: TaskManager[] = [];
-    taskManagers.value.forEach((taskManager) => {
-      const filteredTasksByState = taskManager.tasks.filter(
-        (task) => task.state === 'todo'
-      );
-      if (filteredTasksByState.length > 0) {
-        filteredTasks.push({
-          companyId: taskManager.companyId,
-          tasks: filteredTasksByState,
-        });
-      }
-    });
-    return filteredTasks;
-  });
+  const todo = computed(() => getTasksByState('todo'));
+  const doing = computed(() => getTasksByState('doing'));
+  const done = computed(() => getTasksByState('done'));
 
-  const doing = computed(() => {
-    const filteredTasks: TaskManager[] = [];
-    taskManagers.value.forEach((taskManager) => {
-      const filteredTasksByState = taskManager.tasks.filter(
-        (task) => task.state === 'doing'
-      );
-      if (filteredTasksByState.length > 0) {
-        filteredTasks.push({
-          companyId: taskManager.companyId,
-          tasks: filteredTasksByState,
-        });
-      }
-    });
-    return filteredTasks;
-  });
-
-  const done = computed(() => {
-    const filteredTasks: TaskManager[] = [];
-    taskManagers.value.forEach((taskManager) => {
-      const filteredTasksByState = taskManager.tasks.filter(
-        (task) => task.state === 'done'
-      );
-      if (filteredTasksByState.length > 0) {
-        filteredTasks.push({
-          companyId: taskManager.companyId,
-          tasks: filteredTasksByState,
-        });
-      }
-    });
-    return filteredTasks;
-  });
-  console.log(doing.value);
   return {
     todo,
     doing,

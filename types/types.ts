@@ -41,6 +41,14 @@ export interface CompanyInfo {
 
 export interface TodoListType {
   name: string;
-  cards: ComputedRef<TaskManager[]>;
+  cards: ComputedRef<TaskInfo[]>;
   status: 'todo' | 'doing' | 'done';
+}
+
+export interface TaskInfo {
+  companyId: number; // Foreign Key linked to Company
+  taskId: number; // Primary Key
+  deadline: string;
+  content: string;
+  state: 'todo' | 'doing' | 'done';
 }
