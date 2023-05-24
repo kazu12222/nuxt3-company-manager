@@ -1,3 +1,5 @@
+import exp from 'constants';
+
 export interface Company {
   companyId: number; // Primary Key
   name: string;
@@ -35,4 +37,10 @@ export interface CompanyInfo {
   company: Company;
   taskManager: TaskManager;
   client: Client;
+}
+
+export interface TodoListType {
+  name: string;
+  cards: ComputedRef<TaskManager[]>;
+  status: 'todo' | 'doing' | 'done';
 }
