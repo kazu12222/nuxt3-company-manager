@@ -26,14 +26,7 @@ const addEmptyCard = () => {
   addTaskManager(
     ref({
       companyId: cnt.value,
-      tasks: [
-        {
-          taskId: 1,
-          deadline: '',
-          content: '',
-          state: 'todo',
-        },
-      ],
+      tasks: [],
     })
   );
   addClient(
