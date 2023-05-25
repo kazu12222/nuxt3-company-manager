@@ -10,7 +10,7 @@
     <div
       class="bg-white m-2 p-2"
       :key="card.companyId"
-      v-for="card in list.cards"
+      v-for="card in sortedCards"
       draggable="true"
       @click="showDetailsModal(card)"
       @dragstart="dragCard($event, card.companyId, card.taskId)"
@@ -41,7 +41,7 @@
 </style>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { TodoListType, TaskInfo } from '~/types/types';
 
 const props = defineProps({
@@ -54,10 +54,18 @@ const list = ref<TodoListType>(props.list);
 const selectedCard = ref<TaskInfo>({} as TaskInfo);
 const showModal = ref<boolean>(false);
 
+// Here we create a computed property that returns a sorted copy of list.cards
+const sortedCards = computed(() => {
+  return [...list.value.cards].sort(
+    (a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
+  );
+});
+
 const showDetailsModal = (card: TaskInfo) => {
   console.log(card);
   selectedCard.value = card;
   showModal.value = true;
+  console.log(list.value.cards);
 };
 
 const dragCard = (event: any, dragCompanyId: number, dragTaskId: number) => {
