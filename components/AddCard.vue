@@ -9,7 +9,6 @@
 
 <script setup lang="ts">
 import { addTaskManager } from '~/composables/tasks';
-import { cntId } from '~/composables/cntId';
 const cnt = cntId();
 const addEmptyCard = () => {
   addCntId();

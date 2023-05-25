@@ -15,5 +15,5 @@ const props = defineProps({
   },
 });
 
-const card = ref(props.card);
+const card = computed(() => props.card);
 </script>

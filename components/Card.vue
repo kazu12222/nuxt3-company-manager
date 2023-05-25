@@ -5,11 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-
 const props = withDefaults(defineProps<{ card: { name: string } }>(), {
   card: () => ({ name: '' }),
 });
 
-const card = ref(props.card);
+const card = computed(() => props.card);
 </script>
