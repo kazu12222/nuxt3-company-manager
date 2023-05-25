@@ -1,4 +1,4 @@
-import { Task, TaskManager } from '~/types/types';
+import { Task, TaskManager, TaskInfo } from '~/types/types';
 import type { Ref } from 'vue';
 export const addTaskManager = (addItem: Ref<TaskManager>) => {
   const { taskManagers } = taskCard();
@@ -32,6 +32,27 @@ export const updateTask = (updatedItems: Ref<TaskManager>) => {
   }
 };
 
+export const updateTaskContent = (updatedItem: Ref<TaskInfo>) => {
+  const { taskManagers } = taskCard();
+  const index = taskManagers.value.findIndex(
+    (taskManager) => taskManager.companyId === updatedItem.value.companyId
+  );
+  if (index !== -1) {
+    const taskIndex = taskManagers.value[index].tasks.findIndex(
+      (task) => task.taskId === updatedItem.value.taskId
+    );
+    if (taskIndex !== -1) {
+      taskManagers.value[index].tasks[taskIndex] = updatedItem.value;
+    } else {
+      console.warn(
+        `Task with id ${updatedItem.value.taskId} not found in company with id ${updatedItem.value.companyId}.`
+      );
+    }
+  } else {
+    console.warn(`Company with id ${updatedItem.value.companyId} not found.`);
+  }
+};
+
 export const getTaskById = (companyId: number): TaskManager => {
   // ここでcompanyIdを受け取っている
   const { taskManagers } = taskCard();
@@ -43,6 +64,29 @@ export const getTaskById = (companyId: number): TaskManager => {
   } else {
     throw new Error(`Company with id ${companyId} not found.`);
   }
+};
+
+export const getTasksByState = (
+  state: 'todo' | 'doing' | 'done'
+): TaskInfo[] => {
+  const { taskManagers } = taskCard();
+  let tasksByState: TaskInfo[] = [];
+
+  taskManagers.value.forEach((taskManager) => {
+    taskManager.tasks.forEach((task) => {
+      if (task.state === state) {
+        tasksByState.push({
+          companyId: taskManager.companyId,
+          taskId: task.taskId,
+          deadline: task.deadline,
+          content: task.content,
+          state: task.state,
+        });
+      }
+    });
+  });
+
+  return tasksByState;
 };
 
 export const taskCard = () => {
@@ -82,54 +126,10 @@ export const taskCard = () => {
     },
   ]);
 
-  const todo = computed(() => {
-    const filteredTasks: TaskManager[] = [];
-    taskManagers.value.forEach((taskManager) => {
-      const filteredTasksByState = taskManager.tasks.filter(
-        (task) => task.state === 'todo'
-      );
-      if (filteredTasksByState.length > 0) {
-        filteredTasks.push({
-          companyId: taskManager.companyId,
-          tasks: filteredTasksByState,
-        });
-      }
-    });
-    return filteredTasks;
-  });
+  const todo = computed(() => getTasksByState('todo'));
+  const doing = computed(() => getTasksByState('doing'));
+  const done = computed(() => getTasksByState('done'));
 
-  const doing = computed(() => {
-    const filteredTasks: TaskManager[] = [];
-    taskManagers.value.forEach((taskManager) => {
-      const filteredTasksByState = taskManager.tasks.filter(
-        (task) => task.state === 'doing'
-      );
-      if (filteredTasksByState.length > 0) {
-        filteredTasks.push({
-          companyId: taskManager.companyId,
-          tasks: filteredTasksByState,
-        });
-      }
-    });
-    return filteredTasks;
-  });
-
-  const done = computed(() => {
-    const filteredTasks: TaskManager[] = [];
-    taskManagers.value.forEach((taskManager) => {
-      const filteredTasksByState = taskManager.tasks.filter(
-        (task) => task.state === 'done'
-      );
-      if (filteredTasksByState.length > 0) {
-        filteredTasks.push({
-          companyId: taskManager.companyId,
-          tasks: filteredTasksByState,
-        });
-      }
-    });
-    return filteredTasks;
-  });
-  console.log(doing.value);
   return {
     todo,
     doing,

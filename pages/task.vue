@@ -1,15 +1,13 @@
 <template>
   <div class="flex flex-col min-h-screen mx-4">
     <h3 class="text-2xl font-bold mb-4 text-center">タスク管理</h3>
-    <!-- <div class="w-1/4">
-      <AddCard />
-    </div>
+    <div class="w-1/4"></div>
 
     <div class="flex flex-grow">
-      <List :list="list1" class="flex-grow border-r border-gray-300" />
-      <List :list="list2" class="flex-grow border-r border-gray-300" />
-      <List :list="list3" class="flex-grow" />
-    </div> -->
+      <TodoList :list="list1" class="flex-grow border-r border-gray-300" />
+      <TodoList :list="list2" class="flex-grow border-r border-gray-300" />
+      <TodoList :list="list3" class="flex-grow" />
+    </div>
   </div>
 </template>
 
@@ -25,7 +23,7 @@ const list1 = <TodoListType>{
 const list2 = <TodoListType>{
   name: 'DOING',
   cards: doing,
-  status: 'done',
+  status: 'doing',
 };
 
 const list3 = <TodoListType>{
