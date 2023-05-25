@@ -9,9 +9,10 @@
 
 <script setup lang="ts">
 import { addTaskManager } from '~/composables/tasks';
-const cnt = ref(3);
+import { cntId } from '~/composables/cntId';
+const cnt = cntId();
 const addEmptyCard = () => {
-  cnt.value++;
+  addCntId();
   addCompany(
     ref({
       companyId: cnt.value,
