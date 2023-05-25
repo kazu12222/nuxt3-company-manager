@@ -17,12 +17,12 @@
     >
       <TaskCard :card="card" />
     </div>
-    <!-- <Modal
+    <TaskModal
       v-if="showModal"
       :card="selectedCard"
       :showModal="showModal"
       @close-modal="showModal = false"
-    /> -->
+    />
   </div>
 </template>
 

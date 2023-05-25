@@ -32,6 +32,27 @@ export const updateTask = (updatedItems: Ref<TaskManager>) => {
   }
 };
 
+export const updateTaskContent = (updatedItem: Ref<TaskInfo>) => {
+  const { taskManagers } = taskCard();
+  const index = taskManagers.value.findIndex(
+    (taskManager) => taskManager.companyId === updatedItem.value.companyId
+  );
+  if (index !== -1) {
+    const taskIndex = taskManagers.value[index].tasks.findIndex(
+      (task) => task.taskId === updatedItem.value.taskId
+    );
+    if (taskIndex !== -1) {
+      taskManagers.value[index].tasks[taskIndex] = updatedItem.value;
+    } else {
+      console.warn(
+        `Task with id ${updatedItem.value.taskId} not found in company with id ${updatedItem.value.companyId}.`
+      );
+    }
+  } else {
+    console.warn(`Company with id ${updatedItem.value.companyId} not found.`);
+  }
+};
+
 export const getTaskById = (companyId: number): TaskManager => {
   // ここでcompanyIdを受け取っている
   const { taskManagers } = taskCard();
