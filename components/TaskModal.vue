@@ -13,6 +13,13 @@
       <div class="mt-2 max-h-[400px] overflow-auto px-4 pb-4 sm:p-6 sm:pb-4">
         <p class="mb-2">
           <label
+            for="content"
+            class="block text-gray-700 text-sm font-bold mb-2"
+            >{{ companyName }}</label
+          >
+        </p>
+        <p class="mb-2">
+          <label
             for="deadline"
             class="block text-gray-700 text-sm font-bold mb-2"
             >締切:</label
@@ -65,14 +72,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from 'vue';
-import {
-  CompanyInfo,
-  Company,
-  Client,
-  TaskManager,
-  TaskInfo,
-} from '~/types/types';
+import { defineProps } from 'vue';
+import { getCompanyById } from '~/composables/company';
+import { TaskInfo } from '~/types/types';
 
 const props = defineProps({
   card: {
@@ -86,6 +88,11 @@ const props = defineProps({
 });
 
 const localCard = ref<TaskInfo>({ ...props.card });
+const companyName = computed(() => {
+  const companyId = localCard.value.companyId;
+  const company = getCompanyById(companyId);
+  return company.name;
+});
 const updateCard = () => {
   console.log(localCard.value);
   updateTaskContent(localCard);

@@ -18,7 +18,17 @@ export const updateCompany = (updatedItem: Ref<Company>) => {
   }
   console.log(companies.value);
 };
-
+export const getCompanyById = (companyId: number): Company => {
+  const { companies } = companyCard();
+  const index = companies.value.findIndex(
+    (company) => company.companyId === companyId
+  );
+  if (index !== -1) {
+    return companies.value[index];
+  } else {
+    throw new Error(`Company with id ${companyId} not found.`);
+  }
+};
 export const companyCard = () => {
   const companies = useState<Company[]>('companies-card', () => [
     {
