@@ -67,6 +67,7 @@ const saveDataToCookie = () => {
   };
   Cookies.set('user_data', JSON.stringify(userData.value));
 };
-
-watch([client, approach, candidate], saveDataToCookie, { deep: true });
+watchEffect(() => {
+  saveDataToCookie();
+});
 </script>
