@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { ListType, UserData } from '~/types/types';
 import { watch } from 'vue';
+
 //@ts-ignore
 import Cookies from 'js-cookie';
 const { client, approach, candidate } = companyCard();
@@ -42,6 +43,7 @@ const userData = ref({} as UserData);
 
 onMounted(() => {
   const savedData = Cookies.get('user_data');
+  console.log(savedData);
   if (savedData) {
     userData.value = JSON.parse(savedData);
     console.log(userData.value);
@@ -65,9 +67,15 @@ const saveDataToCookie = () => {
     taskManagers: taskManagers.value,
     clients: clients.clients.value,
   };
+  console.log(userData.value);
   Cookies.set('user_data', JSON.stringify(userData.value));
 };
-watchEffect(() => {
-  saveDataToCookie();
-});
+
+watch(
+  () => userData.value,
+  (newVal, oldVal) => {
+    saveDataToCookie();
+  },
+  { deep: true }
+);
 </script>
