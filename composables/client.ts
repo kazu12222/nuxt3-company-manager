@@ -1,59 +1,37 @@
 import { Client } from '~/types/types';
 import type { Ref } from 'vue';
 
-export const addClient = (client: Ref<Client>) => {
-  const { clients } = clientCard();
-  clients.value.push(client.value);
-};
+// Define a common function to get clients
+const getClients = () => clientCard().clients;
+
+export const loadClients = (saveData: Ref<Client[]>) =>
+  (getClients().value = saveData.value);
+export const addClient = (client: Ref<Client>) =>
+  getClients().value.push(client.value);
 
 export const updateClient = (updatedItem: Ref<Client>) => {
-  const { clients } = clientCard();
-
-  const index = clients.value.findIndex(
+  const clients = getClients().value;
+  const index = clients.findIndex(
     (client) => client.companyId === updatedItem.value.companyId
   );
-  if (index !== -1) {
-    clients.value[index] = updatedItem.value;
-  } else {
+
+  if (index !== -1) clients[index] = updatedItem.value;
+  else
     console.warn(`Company with id ${updatedItem.value.companyId} not found.`);
-  }
-  console.log(clients.value);
 };
 
 export const getClientById = (companyId: number) => {
-  const { clients } = clientCard();
-  const index = clients.value.findIndex(
+  const client = getClients().value.find(
     (client) => client.companyId === companyId
   );
-  if (index !== -1) {
-    return clients.value[index];
-  } else {
-    throw new Error(`Company with id ${companyId} not found.`);
-  }
+  if (!client) throw new Error(`Company with id ${companyId} not found.`);
+  return client;
 };
 
-export const clientCard = () => {
-  const clients = useState<Client[]>('clients-card', () => [
-    {
-      companyId: 1,
-      githubLink: '',
-      earn: 0,
-      cost: 0,
-    },
-    {
-      companyId: 2,
-      githubLink: '',
-      earn: 0,
-      cost: 0,
-    },
-    {
-      companyId: 3,
-      githubLink: '',
-      earn: 0,
-      cost: 0,
-    },
-  ]);
-  return {
-    clients,
-  };
-};
+export const clientCard = () => ({
+  clients: useState<Client[]>('clients-card', () => [
+    { companyId: 1, githubLink: '', earn: 0, cost: 0 },
+    { companyId: 2, githubLink: '', earn: 0, cost: 0 },
+    { companyId: 3, githubLink: '', earn: 0, cost: 0 },
+  ]),
+});

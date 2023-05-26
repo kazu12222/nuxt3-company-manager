@@ -9,9 +9,9 @@
 
 <script setup lang="ts">
 import { addTaskManager } from '~/composables/tasks';
-const cnt = ref(3);
+const cnt = cntId();
 const addEmptyCard = () => {
-  cnt.value++;
+  addCntId();
   addCompany(
     ref({
       companyId: cnt.value,
@@ -26,14 +26,7 @@ const addEmptyCard = () => {
   addTaskManager(
     ref({
       companyId: cnt.value,
-      tasks: [
-        {
-          taskId: 1,
-          deadline: '',
-          content: '',
-          state: 'todo',
-        },
-      ],
+      tasks: [],
     })
   );
   addClient(

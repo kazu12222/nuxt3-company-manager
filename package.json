@@ -16,6 +16,8 @@
     "tailwindcss": "^3.3.2"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.3",
+    "js-cookie": "^3.0.5",
     "vercel": "^29.3.6",
     "vuedraggable": "^4.1.0"
   }
