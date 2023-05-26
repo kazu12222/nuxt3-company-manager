@@ -1,6 +1,11 @@
 import { Company } from '~/types/types';
 import type { Ref } from 'vue';
 
+export const loadCompanies = (saveData: Ref<Company[]>) => {
+  const { companies } = companyCard();
+  companies.value = saveData.value;
+};
+
 export const addCompany = (company: Ref<Company>) => {
   const { companies } = companyCard();
   companies.value.push(company.value);

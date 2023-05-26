@@ -1,6 +1,9 @@
 import { Client } from '~/types/types';
 import type { Ref } from 'vue';
-
+export const loadClients = (saveData: Ref<Client[]>) => {
+  const { clients } = clientCard();
+  clients.value = saveData.value;
+};
 export const addClient = (client: Ref<Client>) => {
   const { clients } = clientCard();
   clients.value.push(client.value);

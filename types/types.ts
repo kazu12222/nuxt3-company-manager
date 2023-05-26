@@ -1,5 +1,3 @@
-import exp from 'constants';
-
 export interface Company {
   companyId: number; // Primary Key
   name: string;
@@ -51,4 +49,10 @@ export interface TaskInfo {
   deadline: string;
   content: string;
   state: 'todo' | 'doing' | 'done';
+}
+export interface UserData {
+  cntId: number;
+  companies: Company[];
+  taskManagers: TaskManager[];
+  clients: Client[];
 }
