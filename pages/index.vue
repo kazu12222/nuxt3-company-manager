@@ -52,7 +52,7 @@ onMounted(() => {
     loadCnt(ref(cntId));
     loadCompanies(ref(companies));
     loadTasks(ref(taskManagers));
-  }
+  } else saveDataToCookie();
 });
 
 const saveDataToCookie = () => {
@@ -68,10 +68,7 @@ const saveDataToCookie = () => {
     clients: clients.clients.value,
   };
   console.log(userData.value);
-  Cookies.set('user_data', JSON.stringify(userData.value), {
-    secure: true,
-    sameSite: 'none',
-  });
+  Cookies.set('user_data', JSON.stringify(userData.value));
 };
 
 watch(
