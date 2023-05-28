@@ -61,19 +61,19 @@ const saveDataToCookie = () => {
   const cnt = cntId();
   const { companies } = companyCard();
   const { taskManagers } = taskCard();
-  userData.value = {
+  const newValue = {
     cntId: cnt.value,
     companies: companies.value,
     taskManagers: taskManagers.value,
     clients: clients.clients.value,
   };
-  console.log(userData.value);
-  Cookies.set('user_data', JSON.stringify(userData.value));
+  console.log(newValue);
+  Cookies.set('user_data', JSON.stringify(newValue));
 };
 
 watch(
-  () => userData.value,
-  (newVal, oldVal) => {
+  () => [clientCard(), cntId(), companyCard(), taskCard()],
+  () => {
     saveDataToCookie();
   },
   { deep: true }
