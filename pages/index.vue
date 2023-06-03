@@ -14,11 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { ListType, UserData } from '~/types/types';
-import { watch } from 'vue';
-
-//@ts-ignore
-import Cookies from 'js-cookie';
+import { ListType } from '~/types/types';
 const { client, approach, candidate } = companyCard();
 
 const list1 = <ListType>{
@@ -39,43 +35,5 @@ const list3 = <ListType>{
   status: 'candidate',
 };
 
-const userData = ref({} as UserData);
-
-onMounted(() => {
-  const savedData = Cookies.get('user_data');
-  console.log(savedData);
-  if (savedData) {
-    userData.value = JSON.parse(savedData);
-    console.log(userData.value);
-    const { cntId, companies, taskManagers, clients } = userData.value;
-    loadClients(ref(clients));
-    loadCnt(ref(cntId));
-    loadCompanies(ref(companies));
-    loadTasks(ref(taskManagers));
-  } else saveDataToCookie();
-});
-
-const saveDataToCookie = () => {
-  console.log('Saving data');
-  const clients = clientCard();
-  const cnt = cntId();
-  const { companies } = companyCard();
-  const { taskManagers } = taskCard();
-  const newValue = {
-    cntId: cnt.value,
-    companies: companies.value,
-    taskManagers: taskManagers.value,
-    clients: clients.clients.value,
-  };
-  console.log(newValue);
-  Cookies.set('user_data', JSON.stringify(newValue));
-};
-
-watch(
-  () => [clientCard(), cntId(), companyCard(), taskCard()],
-  () => {
-    saveDataToCookie();
-  },
-  { deep: true }
-);
+monitaringUserData();
 </script>

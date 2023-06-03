@@ -26,20 +26,6 @@
   </div>
 </template>
 
-<style scoped>
-.list-container {
-  @apply bg-pink-50 rounded-lg p-4;
-}
-
-.list-title {
-  @apply text-xl font-bold mb-4 text-center;
-}
-
-.card-wrapper {
-  @apply cursor-pointer hover:bg-blue-200;
-}
-</style>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { TodoListType, TaskInfo } from '~/types/types';
@@ -83,12 +69,15 @@ const dropCard = (event: any, status: 'todo' | 'doing' | 'done') => {
   const index = taskManagers.value.findIndex(
     (taskManager) => taskManager.companyId === Number(dragCompanyId)
   );
+  console.log(index);
   if (index !== -1) {
     taskManagers.value[index].tasks.findIndex((task) => {
       if (task.taskId === Number(dragTaskId)) {
         task.state = status;
+        console.log('task.state', task.state);
       }
     });
   }
+  console.log(taskManagers.value);
 };
 </script>

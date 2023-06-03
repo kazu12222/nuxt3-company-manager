@@ -1,5 +1,5 @@
 import { Company } from '~/types/types';
-import { ref, Ref } from 'vue';
+import { Ref } from 'vue';
 
 export const companyCard = () => {
   const companies = useState<Company[]>('companies-card', () => [
@@ -36,6 +36,13 @@ export const updateCompany = (updatedItem: Ref<Company>) => {
   } else {
     console.warn(`Company with id ${updatedItem.value.companyId} not found.`);
   }
+};
+
+export const deleteCompanyById = (companyId: number) => {
+  const { companies } = companyCard();
+  companies.value = companies.value.filter(
+    (company) => company.companyId !== companyId
+  );
 };
 
 export const getCompanyById = (companyId: number): Company => {

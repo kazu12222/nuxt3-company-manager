@@ -26,20 +26,6 @@
   </div>
 </template>
 
-<style scoped>
-.list-container {
-  @apply bg-pink-50 rounded-lg p-4;
-}
-
-.list-title {
-  @apply text-xl font-bold mb-4 text-center;
-}
-
-.card-wrapper {
-  @apply cursor-pointer hover:bg-blue-200;
-}
-</style>
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Company, ListType, CompanyInfo } from '~/types/types';

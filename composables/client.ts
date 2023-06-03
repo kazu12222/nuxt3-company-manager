@@ -20,6 +20,13 @@ export const updateClient = (updatedItem: Ref<Client>) => {
     console.warn(`Company with id ${updatedItem.value.companyId} not found.`);
 };
 
+export const deleteClientById = (companyId: number) => {
+  const clients = getClients();
+  clients.value = clients.value.filter(
+    (client) => client.companyId !== companyId
+  );
+};
+
 export const getClientById = (companyId: number) => {
   const client = getClients().value.find(
     (client) => client.companyId === companyId
@@ -29,9 +36,5 @@ export const getClientById = (companyId: number) => {
 };
 
 export const clientCard = () => ({
-  clients: useState<Client[]>('clients-card', () => [
-    { companyId: 1, githubLink: '', earn: 0, cost: 0 },
-    { companyId: 2, githubLink: '', earn: 0, cost: 0 },
-    { companyId: 3, githubLink: '', earn: 0, cost: 0 },
-  ]),
+  clients: useState<Client[]>('clients-card', () => []),
 });

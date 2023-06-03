@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps } from 'vue';
 import { Task, TaskManager } from '~/types/types';
 
 const props = defineProps({
@@ -78,7 +78,7 @@ const addClickTask = () => {
   const task = ref<Task>({
     taskId: taskId.value, // Assigning current taskId
     deadline: new Date().toISOString().split('T')[0],
-    content: '',
+    content: 'タスク',
     state: 'todo',
   });
   addTask(companyId, task);

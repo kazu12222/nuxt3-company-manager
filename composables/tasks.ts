@@ -1,5 +1,5 @@
 import { Task, TaskManager, TaskInfo } from '~/types/types';
-import { ref, Ref } from 'vue';
+import { Ref } from 'vue';
 
 export const taskCard = () => {
   const taskManagers = useState<TaskManager[]>('tasks-card', () => []);
@@ -75,6 +75,21 @@ export const updateTaskContent = (updatedItem: Ref<TaskInfo>) => {
   } else {
     console.warn(`Company with id ${updatedItem.value.companyId} not found.`);
   }
+};
+
+export const deleteTaskById = (companyId: number) => {
+  const { taskManagers } = taskCard();
+  taskManagers.value = taskManagers.value.filter(
+    (taskManager) => taskManager.companyId !== companyId
+  );
+};
+
+export const deleteTaskByTaskId = (companyId: number, taskId: number) => {
+  const { taskManagers } = taskCard();
+  const index = findTaskManagerIndex(companyId);
+  taskManagers.value[index].tasks = taskManagers.value[index].tasks.filter(
+    (task) => task.taskId !== taskId
+  );
 };
 
 export const getTaskById = (companyId: number): TaskManager => {
