@@ -84,6 +84,14 @@ export const deleteTaskById = (companyId: number) => {
   );
 };
 
+export const deleteTaskByTaskId = (companyId: number, taskId: number) => {
+  const { taskManagers } = taskCard();
+  const index = findTaskManagerIndex(companyId);
+  taskManagers.value[index].tasks = taskManagers.value[index].tasks.filter(
+    (task) => task.taskId !== taskId
+  );
+};
+
 export const getTaskById = (companyId: number): TaskManager => {
   const { taskManagers } = taskCard();
   const index = findTaskManagerIndex(companyId);
