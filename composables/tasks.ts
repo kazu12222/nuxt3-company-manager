@@ -1,5 +1,5 @@
 import { Task, TaskManager, TaskInfo } from '~/types/types';
-import { ref, Ref } from 'vue';
+import { Ref } from 'vue';
 
 export const taskCard = () => {
   const taskManagers = useState<TaskManager[]>('tasks-card', () => []);
