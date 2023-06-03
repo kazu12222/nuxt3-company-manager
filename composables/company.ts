@@ -38,6 +38,13 @@ export const updateCompany = (updatedItem: Ref<Company>) => {
   }
 };
 
+export const deleteCompanyById = (companyId: number) => {
+  const { companies } = companyCard();
+  companies.value = companies.value.filter(
+    (company) => company.companyId !== companyId
+  );
+};
+
 export const getCompanyById = (companyId: number): Company => {
   const { companies } = companyCard();
   const index = findCompanyIndex(companyId);

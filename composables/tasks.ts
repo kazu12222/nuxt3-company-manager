@@ -77,6 +77,13 @@ export const updateTaskContent = (updatedItem: Ref<TaskInfo>) => {
   }
 };
 
+export const deleteTaskById = (companyId: number) => {
+  const { taskManagers } = taskCard();
+  taskManagers.value = taskManagers.value.filter(
+    (taskManager) => taskManager.companyId !== companyId
+  );
+};
+
 export const getTaskById = (companyId: number): TaskManager => {
   const { taskManagers } = taskCard();
   const index = findTaskManagerIndex(companyId);
