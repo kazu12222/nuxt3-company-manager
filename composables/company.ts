@@ -1,5 +1,5 @@
 import { Company } from '~/types/types';
-import { ref, Ref } from 'vue';
+import { Ref } from 'vue';
 
 export const companyCard = () => {
   const companies = useState<Company[]>('companies-card', () => [

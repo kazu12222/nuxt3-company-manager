@@ -29,9 +29,5 @@ export const getClientById = (companyId: number) => {
 };
 
 export const clientCard = () => ({
-  clients: useState<Client[]>('clients-card', () => [
-    { companyId: 1, githubLink: '', earn: 0, cost: 0 },
-    { companyId: 2, githubLink: '', earn: 0, cost: 0 },
-    { companyId: 3, githubLink: '', earn: 0, cost: 0 },
-  ]),
+  clients: useState<Client[]>('clients-card', () => []),
 });
