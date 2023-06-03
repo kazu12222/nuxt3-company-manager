@@ -78,7 +78,7 @@ const addClickTask = () => {
   const task = ref<Task>({
     taskId: taskId.value, // Assigning current taskId
     deadline: new Date().toISOString().split('T')[0],
-    content: '',
+    content: 'タスク',
     state: 'todo',
   });
   addTask(companyId, task);
