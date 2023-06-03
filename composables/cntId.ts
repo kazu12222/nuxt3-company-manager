@@ -1,4 +1,4 @@
-import { ref, Ref } from 'vue';
+import { Ref } from 'vue';
 
 export const loadCnt = (saveData: Ref<number>) => {
   const cnt = cntId();
@@ -6,7 +6,7 @@ export const loadCnt = (saveData: Ref<number>) => {
 };
 
 export const cntId = (): Ref<number> => {
-  const cnt = useState<number>('cntId', () => 3);
+  const cnt = useState<number>('cntId', () => 0);
   return cnt;
 };
 
